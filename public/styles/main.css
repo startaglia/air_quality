@@ -28,3 +28,20 @@ footer{
     width: 100%;
     background-color: violet;
 }
+
+.list-box{
+    width: 100%;
+    background-color: darkgoldenrod;
+}
+
+.search-box{
+    width: 100%;
+    background-color: slateblue;
+}
+.myflex-col{
+    display: flexbox;
+    flex-wrap: wrap;
+    /* align-items: center; */
+}
+
+
