@@ -6,6 +6,7 @@
 
 body{
     background-color: cornflowerblue;
+    width: 100%;
 }
 
 nav{
@@ -19,6 +20,13 @@ footer{
     background-color: teal;
 }
 
+.mine-container{
+    width: 100%;
+    height: 85vh;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-top: 3%;
+}
 .usage-box{
     width: 100%;
     background-color:darkkhaki;

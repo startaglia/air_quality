@@ -9,6 +9,7 @@ const API_KEY = "6365e193-26c5-4c70-8ad7-244fdeeda85c";
 let countriesArray;
 let statesArray;
 let citiesArray;
+let cityData;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,6 +21,7 @@ app.get("/", (req, res)=>{
 app.get("/usage", (req, res)=>{
     res.render("usage.ejs");
 });
+
 
 app.get("/country_list", async (req, res)=>{
 
@@ -35,18 +37,18 @@ app.get("/country_list", async (req, res)=>{
 });
 
 app.post("/country_list", (req, res)=>{
-    res.render("state_list.ejs", {
-        content: req.body.country,
-    });
+    const country = req.body.country;
+    res.redirect(`/state_list?country=${country}`);
 });
-
 
 app.get("/state_list", async (req, res)=>{
     try {
+        const country = req.query.country;
         const response = await axios.get(API_URL + "states?country=" + req.query.country + "&key=" + API_KEY);
         statesArray = response.data.data.map(item => item.state);
         res.render("state_list.ejs", {
             content : statesArray,
+            country : country,
         });
     } catch (error) {
         res.status(500).send(`State request error`);
@@ -54,29 +56,58 @@ app.get("/state_list", async (req, res)=>{
 });
 
 app.post("/state_list", (req, res)=>{
-    console.log("RISPSOTA: ", req.query.country);
-    res.redirect(`/city_list?country=${country}&state=${req.body.state}`);
+
+    const country = req.query.country;
+    const state = req.query.state;
+    res.redirect(`/city_list?country=${country}&state=${state}`);
 });
 
 app.get("/city_list", async (req, res)=>{
-    // try {
-    //     const response = await axios.get(API_URL + "cities?state=" + req.query.country + "&country=" + country + "&key=" + API_KEY);
-    //     statesArray = response.data.data.map(item => item.state);
-    //     res.render("state_list.ejs", {
-    //         content : statesArray,
-    //     });
-    // } catch (error) {
-    //     res.status(500).send(`State request error`);
-    // }
+    try {
+        const country = req.query.country;
+        const state = req.query.state;
+        // console.log("STATE: ", state);
+        const response = await axios.get(API_URL + "cities?state=" + state + "&country=" + country + "&key=" + API_KEY);
+        citiesArray = response.data.data.map(item => item.city);
+        res.render("city_list.ejs", {
+            content : citiesArray,
+            country : country,
+            state   : state,
+        });
+    } catch (error) {
+        res.status(500).send(`State request error`);
+    }
 });
 
-// app.post("/country_list", (req, res)=>{
-//     res.render("state_list.ejs", {
-//         content: req.body.country,
-//     });
-// });
+app.post("/city_list", (req, res)=>{
+    const country = req.body.country;
+    const state = req.body.state;
+    const city = req.body.city;
 
-//     const response = await axios.get(API_URL + "cities?state=" + state + "&country=" + country + "&key=" + API_KEY);
+    res.redirect(`/result?country=${country}&state=${state}&city=${city}`);
+});
+
+app.get("/result", async (req, res)=>{
+    try {
+        const country = req.query.country;
+        const state = req.query.state;
+        const city = req.query.city;
+        console.log("COUNTRY:", country);
+        console.log("STATE:", state);
+        console.log("CITY:", city);
+        const response = await axios.get(API_URL + "city?city=" + city + "&state=" + state + "&country=" + country + "&key=" + API_KEY);
+        cityData = response.data;
+        console.log("DATI: ", cityData.data);
+        console.log("CURRENT: ", cityData.data.current);
+        console.log("AQUIS: ", cityData.data.current.pollution.aqius);
+
+        res.render("result.ejs", {
+            content : cityData.data,
+        });
+    } catch (error) {
+        res.status(500).send(`State request error`);
+    }
+});
 
 app.get("/search", (req, res)=>{
     res.render("search.ejs");
