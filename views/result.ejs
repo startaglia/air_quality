@@ -2,57 +2,201 @@
 <html lang="en">
 <%- include("./partials/header.ejs") %>
 <body>
-    <% if (locals.content) {%>
-        <div class="mine-container">
+
+    <% if (locals.country) {%>
             <div class="row d-flex justify-content-between align-items-center mb-5">
-                <div class="col-md-6">
-                    <h1 class="text-center"><%= locals.content.city %> AQI index</h1>
-                </div>
-                <div class="col-md-2 col-sm-12 text-center d-none d-md-block">
-                    <img src="https://picsum.photos/200" alt="" style="width: 100px; height: 100px;">
-                    AQI face
+                <div class="col">
+                    <h1 class="text-center"><%= locals.country.name.common %></h1>
                 </div>
             </div>
             <div class="row d-flex">
                 <div class="col">
-                    <div class="card">
                         <ul class="list-group list-group-flush text-center">
-                            <li class="list-group-item"><h2>VALUE AQIUS: <%= content.current.pollution.aqius%></h2></li>
-                            <li class="list-group-item"><h2>VALUE AQICN: <%= content.current.pollution.aqicn%></h2></li>
-                            <li class="list-group-item"><h2>VALUE MAINUS: <%= content.current.pollution.mainus%></h2></li>
-                            <li class="list-group-item"><h2>VALUE MAINCN: <%= content.current.pollution.maincn%></h2></li>
+                            <% if (country.name.common) { %>
+                                <li class="list-group-item"><h2>name: <%= country.name.common%>(<%= country.cca2 %>)</h2></li>
+                            <% } %>
+                            <% if (country.capital) { %>
+                                <li class="list-group-item"><h2>capital: <%= country.capital %></h2></li>
+                            <% } %>
+                            <% if (country.region) { %>
+                                <li class="list-group-item"><h2>region: <%= country.region%></h2></li>
+                            <% } %>
+                            <% if (country.subregion) { %>
+                                <li class="list-group-item"><h2>subregion: <%= country.subregion%></h2></li>
+                            <% } %>
+                            <% if (country.continents && country.continents.length === 1) { %>
+                                <li class="list-group-item"><h2>continents: <%= country.continents[Object.keys(country.continents)[0]] %></h2></li>
+                            <% } else if(country.continents) { %>
+                                <li class="list-group-item">
+                                    <h2>continents: </h2>
+                                    <ul>
+                                        <% for (const key in country.continents) { %>
+                                            <li> <h2><%= country.continents[key] %></h2></li>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                            <% if (country.languages && country.languages.length === 1) { %>
+                                <li class="list-group-item"><h2>Languages: <%= country.languages[Object.keys(country.languages)[0]] %></h2></li>
+                            <% } else if(country.languages) { %>
+                                <li class="list-group-item">
+                                    <h2>Languages: </h2>
+                                    <ul>
+                                        <% for (const key in country.languages) { %>
+                                            <li> <h2><%= country.languages[key] %></h2></li>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                            <% if (country.independent) { %>
+                                <li class="list-group-item"><h2>Independent: Yes</h2></li>
+                            <% } else { %>
+                                <li class="list-group-item"><h2>Independent: No</h2></li>
+                            <% } %>
+
+                            <% if (country.unMember) { %>
+                                <li class="list-group-item"><h2>UN Member: Yes</h2></li>
+                            <% } else { %>
+                                <li class="list-group-item"><h2>UN Member: No</h2></li>
+                            <% } %>
+
+                            <% if (country.currencies) { %>
+                                <li class="list-group-item">
+                                    <h2>Currencies: </h2>
+                                    <ul>
+                                        <% for (const key in country.currencies) { %>
+                                            <li>
+                                                <h2><%= country.currencies[key].name %> (<%= country.currencies[key].symbol %>)</h2>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+
+                            <% if (country.latlng) { %>
+                                <li class="list-group-item"><h2>Latitude: <%= country.latlng[0] %> </br>Longitude: <%= country.latlng[1] %></h2></li>
+                            <% } %>
+
+                            <% if (country.capitalInfo) { %>
+                                <li class="list-group-item">
+                                    <h2>Capital info: </h2>
+                                    <ul>
+                                        <% for (const key in country.capitalInfo) { %>
+                                            <% const value = country.capitalInfo[key]; %>
+                                            <li>
+                                                <h3>
+                                                    <% if (key === "latlng") {%>
+                                                        <strong><%= key %>(lat, long): </strong> <%= Array.isArray(value) ? value.join(', ') : value %></li>
+                                                    <% } else { %>
+                                                        <strong><%= key %>: </strong> <%= Array.isArray(value) ? value.join(', ') : value %></li>
+                                                        <% } %>
+                                                </h3>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+
+                            <% if (country.landlocked) { %>
+                                <li class="list-group-item"><h2>Landlocked: Yes</h2></li>
+                            <% } else { %>
+                                <li class="list-group-item"><h2>Landlocked: No</h2></li>
+                            <% } %>
+
+                            <% if (country.borders && country.borders.length > 0) { %>
+                                <li class="list-group-item">
+                                    <h2>Borders:</h2>
+                                    <ul>
+                                        <% country.borders.forEach(border => { %>
+                                            <li><h3><%= border %></h3> </li>
+                                        <% }); %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                            <% if (country.area) { %>
+                                <li class="list-group-item"><h2>Area(km²): </h2>
+                                    <h3> <%= country.area%></h3>
+                                </li>
+                            <% } %>
+
+                            <% if (country.population) { %>
+                                <li class="list-group-item"><h2>Population: </h2>
+                                    <h3> <%= country.population%></h3>
+                                </li>
+                            <% } %>
+
+                            <% if (country.maps) { %>
+                                <li class="list-group-item">
+                                    <h2>Maps:</h2>
+                                    <ul>
+                                        <% for (const key in country.maps) { %>
+                                            <li>
+                                                <h3 style="display: inline; text-decoration: none;"><strong><%= key %>: </strong><a href="<%= country.maps[key] %>"><%= country.maps[key] %></a></h3>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                </li>
+                            <% } %>
+
+                            <% if (country.timezones && country.timezones.length > 0) { %>
+                                <li class="list-group-item">
+                                    <h2>Timezones:</h2>
+                                    <ul>
+                                        <% country.timezones.forEach(timezone => { %>
+                                            <li><h3><%= timezone %></h3> </li>
+                                        <% }); %>
+                                    </ul>
+                                </li>
+                            <% } %>
+
+                            <% if(country.postalCode) {%>
+                                <li class="list-group-item">
+                                    <h2>Postal code: </h2>
+                                    <% for (const key in country.postalCode) {%>
+                                        <h3><strong><%= key %>: </strong> <%= country.postalCode[key] %></h3>
+                                    <% } %>
+                                </li>
+                            <% } %>
+
+                            <% if (country.startOfWeek) { %>
+                                <li class="list-group-item"><h2>Start of Week: <%= country.startOfWeek %></h2></li>
+                            <% } %>
+
+                            <% if(country.flags) {%>
+                                <li class="list-group-item">
+                                    <h2>Flags imgs: </h2>
+                                    <% for (const key in country.flags) {%>
+                                        <% if(key === "alt") {%>
+                                            <h3><strong><%= key %>:</strong><%= country.flags[key] %></h3>
+                                        <% } else { %>
+                                            <h3><strong><%= key%>: </strong>
+                                                <a href="<%= country.flags[key] %>"><%= country.flags[key] %> </a>
+                                            </h3>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
+                            </li>
+                            <% if (country.flag) { %>
+                                <li class="list-group-item"><h2>Flag's emoji: <%= country.flag %></h2></li>
+                            <% } %>
+
+                            <% if(country.coatOfArms) {%>
+                                <li class="list-group-item">
+                                    <h2>Coat of arms: </h2>
+                                    <% for (const key in country.coatOfArms) {%>
+                                        <h3><strong><%= key%>: </strong>
+                                            <a href="<%= country.coatOfArms[key] %>"><%= country.coatOfArms[key] %> </a>
+                                        </h3>
+                                    <% } %>
+                                <% } %>
+                            </li>
                         </ul>
-                    </div>
                 </div>
             </div>
-            <div class="row d-flex justify-content-between align-items-center my-5">
-                <div class="col-md-6">
-                    <h1 class="text-center"><%= locals.content.city %> weather</h1>
-                </div>
-                <div class="col-md-2 col-sm-12 text-center d-none d-md-block">
-                    <img src="https://picsum.photos/200" alt="" style="width: 100px; height: 100px;">
-                    AQI face
-                </div>
-            </div>
-            <div class="row d-flex">
-                <div class="col">
-                    <div class="card">
-                        <ul class="list-group list-group-flush text-center">
-                            <li class="list-group-item"><h2>VALUE TIME STAMP: <%= content.current.weather.ts%></h2></li>
-                            <li class="list-group-item"><h2>VALUE TP: <%= content.current.weather.tp%></h2></li>
-                            <li class="list-group-item"><h2>VALUE PR: <%= content.current.weather.pr%></h2></li>
-                            <li class="list-group-item"><h2>VALUE HU: <%= content.current.weather.hu%></h2></li>
-                            <li class="list-group-item"><h2>VALUE WS: <%= content.current.weather.ws%></h2></li>
-                            <li class="list-group-item"><h2>VALUE WD: <%= content.current.weather.wd%></h2></li>
-                            <li class="list-group-item"><h2>VALUE IC: <%= content.current.weather.ic%></h2></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <footer>
+            <%- include("./partials/footer.ejs") %>
+        </footer>
     <%}; %>
 </body>
-<%- include("./partials/footer.ejs") %>
 </html>
 
 
