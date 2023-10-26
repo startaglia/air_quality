@@ -3,25 +3,61 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+:root {
+    --back: #E0E0E0;
+    --text: #333333;
+    --highlighted-text: #4CAF50;
+    --link: #009688;
+    --btn: #00796B;
+    --header: #B0BEC5;
+    --highlighted: #FFC107;
+    --footer: #333333;
+}
 body{
+    background-color: var(--back);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
     height: 100vh;
-    background-color: cornflowerblue;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
-
 nav{
     width: 100%;
-    background-color: crimson;
+    background-color: var(--footer);
+    color: var(--highlighted-text);
 }
-
+nav ul {
+    list-style: none;
+}
+nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
 footer{
-    /* height: 200px; */
     width: 100%;
-    background-color: teal;
+    color: var(--highlighted-text);
+    background-color: var(--footer);
 }
+/* Stile per i bottoni */
+.my-button {
+    background-color: var(--btn);
+    color: var(--text);
+    border: none;
+    border-radius: 20px; /* Spigoli stondati */
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+
+  /* Cambia colore in hover */
+  .my-button:hover {
+    background-color: var(--highlighted);
+    color: var(--highlighted-text);
+  }
+
 
 .mine-container{
     width: 100%;

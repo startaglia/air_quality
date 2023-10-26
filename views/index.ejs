@@ -5,13 +5,13 @@
         <main class="mb-auto">
           <h1>Country Wiki</h1>
           <form id="searchForm" action="/" method="post">
-            <input type="hidden" name="searchType" id="searchType" value="">
-            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('name')">Search by country name</button>
-            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('capital')">Search by capital</button>
-            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('language')">Search by language</button>
-            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('region')">Search by region</button>
-            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('subregion')">Search by subregion</button>
-        </form>
+                <input type="hidden" name="searchType" id="searchType" value="">
+                <button type="button" class="my-button" onclick="setSearchType('name')">Search by country name</button>
+                <button type="button" class="my-button" onclick="setSearchType('capital')">Search by capital</button>
+                <button type="button" class="my-button" onclick="setSearchType('language')">Search by language</button>
+                <button type="button" class="my-button" onclick="setSearchType('region')">Search by region</button>
+                <button type="button" class="my-button" onclick="setSearchType('subregion')">Search by subregion</button>
+            </form>
 
             <!-- <form action="/result" method="post">
                 <input type="hidden" name="country" value="name-search">
