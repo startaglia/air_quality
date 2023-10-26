@@ -1,36 +1,184 @@
 import express, { response } from "express"
-import axios from "axios"
+import axios, { all } from "axios"
 import bodyParser from "body-parser"
 
 const app = express();
 const port = 8000;
-const API_URL = "https://restcountries.com/v3.1/";
-const API_KEY = "6365e193-26c5-4c70-8ad7-244fdeeda85c";
+const ALL_API_URL = "https://restcountries.com/v3.1/";
+const NAME_API_URL = "https://restcountries.com/v3.1/name/";
+const CAPITAL_API_URL = "https://restcountries.com/v3.1/capital/";
+const LANGUAGE_API_URL = "https://restcountries.com/v3.1/lang/";
+const REGION_API_URL = "https://restcountries.com/v3.1/region/";
+const SUBREGION_API_URL = "https://restcountries.com/v3.1/subregion/";
 let apiData;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get("/", (req, res)=>{
-    res.render("index.ejs");
+async function fetchAllValues() {
+    try {
+        const response = await axios.get(ALL_API_URL + "all");
+        const countries = response.data;
+        const names = new Set();
+        const capitals = new Set();
+        const languages = new Set();
+        const regions = new Set();
+        const subregions = new Set();
+
+        // Itera attraverso la lista dei paesi e estrai regioni e sottoregioni
+        countries.forEach(country => {
+            if (country.name.common) {
+                names.add(country.name.common);
+            }
+            if (country.capital) {
+                if (Array.isArray(country.capital)) {
+                    country.capital.forEach(capital => capitals.add(capital));
+                } else {
+                    capitals.add(country.capital);
+                }
+            }
+            if (country.languages) {
+                const languageValues = Array.isArray(country.languages)
+                    ? country.languages.map(language => language)
+                    : Object.values(country.languages);
+                languageValues.forEach(language => languages.add(language));
+            }
+            if (country.region) {
+                regions.add(country.region);
+            }
+            if (country.subregion) {
+                subregions.add(country.subregion);
+            }
+        });
+
+        return {
+            names:      Array.from(names),
+            capitals:   Array.from(capitals),
+            languages:  Array.from(languages),
+            regions:    Array.from(regions),
+            subregions: Array.from(subregions)
+        };
+    } catch (error) {
+        console.error("Errore nella richiesta all'API:", error);
+        throw error; // Lancia l'errore per essere gestito altrove, se necessario
+    }
+}
+
+
+app.get("/", async (req, res)=>{
+    try {
+        const response = await axios.get(ALL_API_URL + "all");
+        apiData = response.data;
+
+        res.render("index.ejs", {
+            content:    apiData,
+        });
+    } catch (error) {
+        res.status(500).send(`Country request error`);
+    }
 });
 
-app.get("/usage", (req, res)=>{
-    res.render("usage.ejs");
+app.post("/", (req, res)=> {
+    const searchType = req.body.searchType;
+    res.redirect(`/search_type?searchType=${searchType}`);
 });
 
 
-app.get("/country_list", async (req, res)=>{
+app.get("/search_type", async (req, res)=>{
+    const searchType = req.query.searchType;
+    const allValues = await fetchAllValues();
+    console.log("ALL REGIONS", allValues.regions);
+    console.log("ALL SUBREGION", allValues.subregions);
+    res.render("search_type.ejs", {
+        content:    searchType,
+        names:      allValues.names,
+        capitals:   allValues.capitals,
+        languages:  allValues.languages,
+        regions:    allValues.regions,
+        subregions: allValues.subregions,
+        });
+});
+
+app.post("/search_type", async (req, res) => {
+    const searchTerm = req.body.searchTerm;
+    const searchType = req.body.searchType;
 
     try {
+        let response;
+        switch (searchType) {
+            case 'name':
+                response = await axios.get(NAME_API_URL + searchTerm);
+                apiData = response.data;
+                if (apiData.length > 0) {
+                    res.redirect(`/result?country=${apiData[0].name.common}`);
+                } else {
+                    res.status(404).send('Nessun paese trovato con questo nome.');
+                }
+                break;
+            case 'capital':
+                response = await axios.get(CAPITAL_API_URL + searchTerm);
+                apiData = response.data;
+                if (apiData.length > 0) {
+                    res.redirect(`/result?country=${apiData[0].name.common}`);
+                } else {
+                    res.status(404).send('Nessun paese trovato con questa capitale.');
+                }
+                break;
+            default:
+                res.redirect(`/list_results?searchType=${searchType}&searchTerm=${searchTerm}`);
+                break;
+        }
+    } catch (error) {
+        console.error('Errore durante la richiesta al server API:', error);
+        res.status(500).send('Errore durante la ricerca del paese. Si prega di riprovare più tardi.');
+    }
+});
 
-        const response = await axios.get("https://restcountries.com/v3.1/all");
 
-        // const response = await axios.get(API_URL + "countries?key=" + API_KEY);
-        // countriesArray = response.data.map(item => item.name);
-        // const countryNamesArr = response.data.map(item => item.name.common);
+app.get("/list_results", async (req, res)=>{
+    try {
+        const searchTerm = req.query.searchTerm;
+        const searchType = req.query.searchType;
+        console.log("SEARCH TYPE", req.query.searchType);
+        console.log("SEARCH TERM", searchTerm);
+        let response;
+        switch (searchType) {
+            case 'language':
+                response = await axios.get(LANGUAGE_API_URL + searchTerm);
+                apiData = response.data;
+                res.render("list_results.ejs", {
+                    content: apiData,
+                });
+                break;
+            case 'region':
+                response = await axios.get(REGION_API_URL + searchTerm);
+                apiData = response.data;
+                res.render("list_results.ejs", {
+                    content: apiData,
+                });
+                break;
+            case 'subregion':
+                response = await axios.get(SUBREGION_API_URL + searchTerm);
+                apiData = response.data;
+                res.render("list_results.ejs", {
+                    content: apiData,
+                });
+                break;
+            default:
+                res.status(400).send('Tipo di ricerca non supportato');
+                break;
+
+        }
+    } catch (error) {
+        res.status(500).send(`Country request error`);
+    }
+});
+
+app.get("/country_list", async (req, res)=>{
+    try {
+        const response = await axios.get(ALL_API_URL + "all");
         apiData = response.data;
-        // countriesArray.sort();
+
         res.render("country_list.ejs", {
             content:    apiData,
         });
@@ -52,13 +200,8 @@ app.get("/result", async (req, res) => {
         const selectedCountry = apiData.find(item => item.name.common === countryName);
 
         if (selectedCountry) {
-            console.log(selectedCountry);
-            // Se il paese è stato trovato, puoi accedere alle sue proprietà
-            // const capital = selectedCountry.capital[0]; // Ottieni la capitale dal paese selezionato
-
             res.render("result.ejs", {
-                country: selectedCountry, // Passa il nome del paese
-                // capital: capital, // Passa il nome della capitale
+                country: selectedCountry,
             });
         } else {
             // Se il paese non è stato trovato nei dati, gestisci l'errore
@@ -69,59 +212,11 @@ app.get("/result", async (req, res) => {
     }
 });
 
-
-
-
 app.get("/search", (req, res)=>{
     res.render("search.ejs");
-});
-
-
-
-app.post("/", async (req, res)=>{
-    // console.log(req.suppCountries);
-    /*MILESTONE:
-    1.FARE LA RICHIESTA PER OTTENERE TUTTI GLI STATI CHE SUPPORTANO IL SERVIZIO
-    2.IN BASE ALLO STATO FARE LA RICHIESTA PER OTTENERE TUTTI I PAESI CHE SUPPORTANO IL SERVIZIO
-    3.IN BASE AL PAESE FARE LA RICHIESTA PER OTTENERE I DATI DELLA CITTÀ RICHIESTA
-    */
-    // http://api.airvisual.com/v2/city?city=Los Angeles&state=California&country=USA&key={{YOUR_API_KEY}}
-    // console.log("URL" + API_URL + "city?city=" + searchNav + "&state=California&country=USA&key=" + API_KEY);
-    try {
-        const searchNav = req.body.searchNav;
-        const response = await axios.get(API_URL + "city?city=" + searchNav + "&state=" + searchNav + "&country=" + searchNav + "&key=" + API_KEY);
-        // "&state=California&country=USA&key=" + API_KEY);
-
-        console.log("RISULTATO" + JSON.stringify(response.data));
-        res.render("result.ejs");
-    } catch (error) {
-        console.log("ERRORE");
-        res.status(404);
-    }
-    console.log("BODYPARSER", req.body.searchNav);
-    res.render("result.ejs");
 });
 
 app.listen(port, ()=> {
     console.log(`Server running on port ${port}`);
 });
 
-
-
-// app.get("/apiKey", async(req, res) => {
-//     //TODO 4: Write your code here to hit up the /filter endpoint
-//     //Filter for all secrets with an embarassment score of 5 or greater
-//     //HINT: You need to provide a query parameter of apiKey in the request.
-//       try {
-//           const response = await axios.get(API_URL + "filter?score=5&apiKey=" + yourAPIKey);
-//           const jsonData = JSON.stringify(response.data);
-//           res.render("index.ejs", {
-//               content: jsonData,
-//           });
-//       } catch (error) {
-//           console.log("Failed to make request:", error.message);
-//           res.render("index.ejs", {
-//               error: error.message,
-//           });
-//       }
-//   });

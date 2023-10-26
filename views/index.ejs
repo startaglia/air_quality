@@ -3,7 +3,40 @@
     <%- include("partials/header.ejs") %>
     <body class="d-flex flex-column justify-content-between vh-100">
         <main class="mb-auto">
-          <h1>Air Quality</h1>
+          <h1>Country Wiki</h1>
+          <form id="searchForm" action="/" method="post">
+            <input type="hidden" name="searchType" id="searchType" value="">
+            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('name')">Search by country name</button>
+            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('capital')">Search by capital</button>
+            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('language')">Search by language</button>
+            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('region')">Search by region</button>
+            <button type="button" class="btn btn-primary card-title" style="max-width: 150px;" onclick="setSearchType('subregion')">Search by subregion</button>
+        </form>
+
+            <!-- <form action="/result" method="post">
+                <input type="hidden" name="country" value="name-search">
+                <button type="submit" class="btn btn-primary card-title" style="max-width: 150px;">Search by name</button>
+            </form>
+            <form action="/result" method="post">
+                <input type="hidden" name="country" value="name-search">
+                <button type="submit" class="btn btn-primary card-title" style="max-width: 150px;">Search by capital</button>
+            </form>
+            <form action="/result" method="post">
+                <input type="hidden" name="country" value="name-search">
+                <button type="submit" class="btn btn-primary card-title" style="max-width: 150px;">Search by language</button>
+            </form>
+            <form action="/result" method="post">
+                <input type="hidden" name="country" value="name-search">
+                <button type="submit" class="btn btn-primary card-title" style="max-width: 150px;">Search by region</button>
+            </form>
+            <form action="/result" method="post">
+                <input type="hidden" name="country" value="name-search">
+                <button type="submit" class="btn btn-primary card-title" style="max-width: 150px;">Search by subregion</button>
+            </form>
+            <form action="/result" method="post">
+                <input type="hidden" name="country" value="name-search">
+                <button type="submit" class="btn btn-primary card-title" style="max-width: 150px;">Search by status</button>
+            </form> -->
         </main>
         <footer>
           <%- include("partials/footer.ejs") %>
@@ -11,4 +44,10 @@
       </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     <script src="../index.js"></script>
+    <script>
+        function setSearchType(value) {
+            document.getElementById('searchType').value = value;
+            document.getElementById('searchForm').submit();
+        }
+    </script>
 </html>
