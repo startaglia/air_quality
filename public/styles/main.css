@@ -50,7 +50,7 @@ i{
 /* Stile per i bottoni */
 .my-button {
     background-color: var(--btn);
-    color: var(--text);
+    color: var(--back);
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -58,7 +58,7 @@ i{
     margin: 10px;
     transition: background-color 0.3s, color 0.3s;
     font-weight: 600;
-  }
+}
 
   /* Cambia colore in hover */
   .my-button:hover {

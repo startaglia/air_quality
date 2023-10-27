@@ -142,21 +142,27 @@ app.get("/list_results", async (req, res)=>{
                 response = await axios.get(LANGUAGE_API_URL + searchTerm);
                 apiData = response.data;
                 res.render("list_results.ejs", {
-                    content: apiData,
+                    content:    apiData,
+                    type :      searchType,
+                    term:       searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1),
                 });
                 break;
             case 'region':
                 response = await axios.get(REGION_API_URL + searchTerm);
                 apiData = response.data;
                 res.render("list_results.ejs", {
-                    content: apiData,
+                    content:    apiData,
+                    type :      searchType,
+                    term:       searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1),
                 });
                 break;
             case 'subregion':
                 response = await axios.get(SUBREGION_API_URL + searchTerm);
                 apiData = response.data;
                 res.render("list_results.ejs", {
-                    content: apiData,
+                    content:    apiData,
+                    type :      searchType,
+                    term:       searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1),
                 });
                 break;
             default:
