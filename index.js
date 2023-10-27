@@ -1,5 +1,5 @@
-import express, { response } from "express"
-import axios, { all } from "axios"
+import express from "express"
+import axios from "axios"
 import bodyParser from "body-parser"
 
 const app = express();
@@ -205,7 +205,6 @@ app.get("/result", async (req, res) => {
                 country: selectedCountry,
             });
         } else {
-            // Se il paese non è stato trovato nei dati, gestisci l'errore
             res.status(404).send("Country not found");
         }
     } catch (error) {
