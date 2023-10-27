@@ -50,21 +50,18 @@ async function fetchAllValues() {
                 subregions.add(country.subregion);
             }
         });
-
         return {
-            names:      Array.from(names),
-            capitals:   Array.from(capitals),
-            languages:  Array.from(languages),
-            regions:    Array.from(regions),
-            subregions: Array.from(subregions)
+            names:      Array.from(names).sort(),
+            capitals:   Array.from(capitals).sort(),
+            languages:  Array.from(languages).sort(),
+            regions:    Array.from(regions).sort(),
+            subregions: Array.from(subregions).sort()
         };
     } catch (error) {
         console.error("Errore nella richiesta all'API:", error);
         throw error; // Lancia l'errore per essere gestito altrove, se necessario
     }
 }
-
-
 app.get("/", async (req, res)=>{
     try {
         const response = await axios.get(ALL_API_URL + "all");
@@ -133,8 +130,6 @@ app.post("/search_type", async (req, res) => {
         res.status(500).send('Errore durante la ricerca del paese. Si prega di riprovare più tardi.');
     }
 });
-
-
 app.get("/list_results", async (req, res)=>{
     try {
         const searchTerm = req.query.searchTerm;
