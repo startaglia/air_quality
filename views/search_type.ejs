@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include("./partials/header.ejs") %>
+<style>
+    h1{
+        color: var(--btn);
+    }
+    button{
+        color: var(--text);
+    }
+</style>
 <body class="d-flex flex-column justify-content-between align-content-center vh-100">
     <div class="d-flex justify-content-center">
         <div class="w-50 p-3">
             <div class="d-flex flex-column align-items-center text-center">
                 <% if (locals.content) { %>
-                    <h1 style="color: var(--btn);"><strong>Write <%= content %></strong></h1>
+                    <h1><strong>Write <%= content %></strong></h1>
                     <form action="/search_type" method="POST" class="mt-3">
                         <input type="text" class="form-control" name="searchTerm">
                         <input type="hidden" class="form-control" name="searchType" value="<%= content %>">
                         <button class="btn my-button mt-3 mb-5" type="submit">SEARCH</button>
                     </form>
                     <p class="align-self-start">
-                        <button class="btn fs-6" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="color: var(--text);">
+                        <button class="btn fs-6" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                           <strong>Search all <%= content %>s ⇅</strong>
                         </button>
                     </p>

@@ -12,10 +12,8 @@
     <% if (locals.country) {%>
             <div class="row mb-5 mt-5" >
                 <div class="col d-flex flex-col flex-wrap justify-content-center align-items-center w-100">
-                    <div class="text-center" style="width: 100%;">
-                        <img src="<%= country.flags.png %>" class="img-fluid" alt="flag_img">
-                    </div>
-                    <div class="mt-4">
+                    <div class="text-center">
+                        <img src="<%= country.flags.png %>" class="img-fluid w-100 mb-4" alt="flag_img">
                         <h1 class="text-center"> <strong><%= locals.country.name.common %></strong></h1>
                     </div>
                 </div>
@@ -203,25 +201,3 @@
     <%}; %>
 </body>
 </html>
-
-
-<!-- city: Il nome della città. In questo caso, "Roma".
-state: Lo stato in cui si trova la città. In questo caso, "Latium".
-country: Il paese in cui si trova la città. In questo caso, "Italy".
-location: Le coordinate geografiche della città. In questo caso, [12.4509, 41.9089].
-current: I dati sulla qualità dell'aria e sul tempo.
-pollution: I dati sulla qualità dell'aria.
-ts: La data e l'ora in cui sono stati raccolti i dati. In questo caso, "2023-10-16T12:00:00.000Z".
-aqius: L'indice di qualità dell'aria degli Stati Uniti (AQIUS), che è una misura della qualità dell'aria in base a un'ampia gamma di inquinanti. In questo caso, 42.
-mainus: Il principale inquinante che contribuisce all'AQIUS. In questo caso, "p2", che indica particolato fine.
-aqicn: L'indice di qualità dell'aria della Cina (AQICN), che è una misura della qualità dell'aria in base a un'ampia gamma di inquinanti. In questo caso, 15.
-maincn: Il principale inquinante che contribuisce all'AQICN. In questo caso, "p2", che indica particolato fine.
-weather: I dati sul tempo.
-ts: La data e l'ora in cui sono stati raccolti i dati. In questo caso, "2023-10-16T12:00:00.000Z".
-tp: La temperatura in gradi Celsius. In questo caso, 20.
-pr: La pressione atmosferica in millibar. In questo caso, 1015.
-hu: L'umidità relativa in percentuale. In questo caso, 67.
-ws: La velocità del vento in metri al secondo. In questo caso, 2,57.
-wd: La direzione del vento in gradi. In questo caso, 40.
-ic: Il codice del tempo. In questo caso, "04d", che indica cielo sereno. -->
-

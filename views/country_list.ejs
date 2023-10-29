@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include("./partials/header.ejs") %>
+<style>
+    img{
+        height: 200px;
+        object-fit: cover;
+    }
+    button{
+        font-size: 1rem;
+    }
+</style>
 <body class="d-flex flex-column justify-content-between text-center vh-100" style="color: var(--btn);">
         <h1 class="mt-5 mb-3"><strong>Country list</strong></h1>
         <% if (locals.content && locals.content.length > 0) {%>
@@ -8,11 +17,11 @@
             <div class="d-flex flex-row flex-wrap justify-content-center align-items-center gap-3">
                 <% sortedCountries.forEach(country => { %>
                     <div style="width: 18rem;">
-                        <img src="<%= country.flags.png %>" class="card-img-top" alt="flag img" style="height: 200px; object-fit: cover;">
+                        <img src="<%= country.flags.png %>" class="card-img-top" alt="flag img">
                         <form action="/result" method="GET">
                             <input type="hidden" name="country" value="<%= country.name.common %>">
                             <div class="card-body d-flex flex-column justify-content-center align-items-center myflex-col m-auto">
-                                <button type="submit" class=" my-button card-title"  style="font-size: 1rem;"><%= country.name.common %></button>
+                                <button type="submit" class=" my-button card-title"><%= country.name.common %></button>
                             </div>
                         </form>
                     </div>

@@ -1,42 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include("partials/header.ejs") %>
+    <!-- get searchType value -->
     <script>
         function setSearchType(value) {
             document.getElementById('searchType').value = value;
-            document.getElementById('searchForm').submit();
         }
     </script>
     <body class="d-flex flex-column justify-content-between align-items-center vh-100">
-        <div class="w-50 mb-4 d-none d-md-block container">
+        <div class="w-100 w-md-50 mb-4 container">
             <div class="card-body d-flex flex-column text-center">
                 <h1 class="card-title mb-3" style="color: var(--btn);"> <strong>Country Wiki</strong></h1>
-                <p class="card-text mb-3">Welcome to the Country Wiki! With just a few clicks, you can find detailed information about any country in the world. Use the buttons below to start your search. Quickly discover data about geography, culture, and much more, making your informational experience easy and fast.
-                </br></br><h2> <strong>SEARCH BY:</strong></h2>
+                <p class="card-text mb-3">
+                    Welcome to the Country Wiki! With just a few clicks, you can find detailed information about any country in the world. Use the buttons below to start your search. Quickly discover data about geography, culture, and much more, making your informational experience easy and fast.
+                    </br></br><h2> <strong>SEARCH BY:</strong></h2>
                 </p>
-                <form id="searchForm" action="/" method="post" class="">
+                <form action="/" method="POST">
                     <input type="hidden" name="searchType" id="searchType" value="">
-                    <button type="button" class="my-button" onclick="setSearchType('name')">COUNTRY NAME</button>
-                    <button type="button" class="my-button" onclick="setSearchType('capital')">CAPITAL</button>
-                    <button type="button" class="my-button" onclick="setSearchType('language')">LANGUAGE</button>
-                    <button type="button" class="my-button" onclick="setSearchType('region')">REGION</button>
-                    <button type="button" class="my-button" onclick="setSearchType('subregion')">SUBREGION</button>
-                </form>
-            </div>
-        </div>
-        <div class="w-100 mb-4 d-md-none container">
-            <div class="card-body d-flex flex-column text-center">
-                <h1 class="card-title mb-3" style="color: var(--btn);"> <strong>Country Wiki</strong></h1>
-                <p class="card-text mb-3">Welcome to the country Country Wiki! With just a few clicks, you can find detailed information about any country in the world. Use the buttons below to start your search. Quickly discover data about geography, culture, and much more, making your informational experience easy and fast.
-                </br></br><h2> <strong>SEARCH BY:</strong></h2>
-                </p>
-                <form id="searchForm" action="/" method="post" class="">
-                    <input type="hidden" name="searchType" id="searchType" value="">
-                    <button type="button" class="my-button" onclick="setSearchType('name')">COUNTRY NAME</button>
-                    <button type="button" class="my-button" onclick="setSearchType('capital')">CAPITAL</button>
-                    <button type="button" class="my-button" onclick="setSearchType('language')">LANGUAGE</button>
-                    <button type="button" class="my-button" onclick="setSearchType('region')">REGION</button>
-                    <button type="button" class="my-button" onclick="setSearchType('subregion')">SUBREGION</button>
+                    <button type="submit" class="my-button" onclick="setSearchType('name')">COUNTRY NAME</button>
+                    <button type="submit" class="my-button" onclick="setSearchType('capital')">CAPITAL</button>
+                    <button type="submit" class="my-button" onclick="setSearchType('language')">LANGUAGE</button>
+                    <button type="submit" class="my-button" onclick="setSearchType('region')">REGION</button>
+                    <button type="submit" class="my-button" onclick="setSearchType('subregion')">SUBREGION</button>
                 </form>
             </div>
         </div>
@@ -45,11 +30,3 @@
     <script src="../index.js"></script>
 </html>
 
-<!--
-    INDEXJS
-    1. METTERE I COMMENTI NEL CODICE
-    INDEXEJS
-    1. METTERE I COMMENTI NEL CODICE
-
-    CONTROLLARE TUTTI GLI ALTRI FILE E VEDERE COME PULIRLI
--->
