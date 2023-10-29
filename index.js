@@ -15,6 +15,7 @@ let apiData;
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
+//create arrays with all data for list_results
 async function fetchAllValues() {
     try {
         const response = await axios.get(ALL_API_URL + "all");
@@ -25,7 +26,6 @@ async function fetchAllValues() {
         const regions = new Set();
         const subregions = new Set();
 
-        // Itera attraverso la lista dei paesi e estrai regioni e sottoregioni
         countries.forEach(country => {
             if (country.name.common) {
                 names.add(country.name.common);
@@ -59,9 +59,10 @@ async function fetchAllValues() {
         };
     } catch (error) {
         console.error("Errore nella richiesta all'API:", error);
-        throw error; // Lancia l'errore per essere gestito altrove, se necessario
+        throw error;
     }
 }
+
 app.get("/", async (req, res)=>{
     try {
         const response = await axios.get(ALL_API_URL + "all");

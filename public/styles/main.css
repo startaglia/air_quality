@@ -47,7 +47,6 @@ footer{
 i{
     font-size: 1.5rem;
 }
-/* Stile per i bottoni */
 .my-button {
     background-color: var(--btn);
     color: var(--back);
@@ -59,43 +58,7 @@ i{
     transition: background-color 0.3s, color 0.3s;
     font-weight: 600;
 }
-
-  /* Cambia colore in hover */
-  .my-button:hover {
-    background-color: var(--highlighted);
-    color: var(--highlighted-text);
-  }
-
-
-.mine-container{
-    width: 100%;
-    padding-left: 10%;
-    padding-right: 10%;
-    margin-top: 3%;
+.my-button:hover {
+background-color: var(--highlighted);
+color: var(--highlighted-text);
 }
-.usage-box{
-    width: 100%;
-    background-color:darkkhaki;
-}
-
-.result-box{
-    width: 100%;
-    background-color: violet;
-}
-
-.list-box{
-    width: 100%;
-    background-color: darkgoldenrod;
-}
-
-.search-box{
-    width: 100%;
-    background-color: slateblue;
-}
-.myflex-col{
-    display: flexbox;
-    flex-wrap: wrap;
-    /* align-items: center; */
-}
-
-
