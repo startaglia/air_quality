@@ -40,7 +40,7 @@ Node.js: Make sure that you have Node.js installed on your sistem. You can insta
 - **Web Framework**: Express v4.18.2
 - **Template Engine**: EJS v3.1.9
 - **Style**: CSS
-- **JavaScript Libraries**:Axios v1.5.1, BodyParser v1.20.2
+- **JavaScript Libraries**: Axios v1.5.1, BodyParser v1.20.2
 - **Development Tools**: Nodemon v3.0.1
 
 ## Authors:
