@@ -3,11 +3,9 @@ Country Wiki is a small web app that provides general information about a specif
 
 ## Installing and running the project:
 
-To run Country Wiki make sure you have these packages installed:
-
-```
+To run Country Wiki make sure you have these packages installed:</br>
 Node.js: Make sure that you have Node.js installed on your sistem. You can do install it on [nodejs.org](https://nodejs.org/en)
-```
+
 
 1- Clone the repo:
 
