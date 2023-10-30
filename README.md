@@ -1,10 +1,10 @@
 # Country Wiki
-Country Wiki is a small web app that provides general information about a specific country. The user can search according to specific criteria such as the language spoken, the capital or the region. The goal of this project was to build the server code well and I particularly focused on API requests. The reference API was [restcountries.com](https://restcountries.com)
+Country Wiki is a small web app that provides general information about a specific country. The user can search according to specific criteria such as the language spoken, the capital or the region. The goal of this project was to build the server code well and I particularly focused on API requests. The reference API is [restcountries.com](https://restcountries.com)
 
 ## Installing and running the project:
 
-To run Country Wiki make sure you have these packages installed:</br>
-Node.js: Make sure that you have Node.js installed on your sistem. You can do install it on [nodejs.org](https://nodejs.org/en)
+To run Country Wiki make sure you have these packages installed:</br></br>
+Node.js: Make sure that you have Node.js installed on your sistem. You can install it on [nodejs.org](https://nodejs.org/en)
 
 
 1- Clone the repo:
