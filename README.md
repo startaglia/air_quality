@@ -1,26 +1,12 @@
 # Country Wiki
-Country Wiki is a small web app that provides general information about a specific country. The user can search according to specific criteria such as the language spoken, the capital or the region. The goal of this project was to build the server code well and I particularly focused on API requests. The reference API was https://restcountries.com.
-
-
-
-
-
-# Minishell
-
-Minishell is a reproduction of some basic functionalities of the Unix (bash) shell.
-The shell allows users to interact with the operating system by executing
-commands, managing processes, and working with files and directories.
-Minishell is a significant project in the journey of 42 as it provides a valuable opportunity
-to gain a comprehensive understanding of fundamental concepts
-in operating systems and acquire essential skills in managing processes and system resources.
-
-
+Country Wiki is a small web app that provides general information about a specific country. The user can search according to specific criteria such as the language spoken, the capital or the region. The goal of this project was to build the server code well and I particularly focused on API requests. The reference API was https://restcountries.com
 
 ## Installing and running the project:
 
-To run Minshell make sure you have these packages installed:
+To run Country Wiki make sure you have these packages installed:
 
 ```
+Node.js: make sure that you have Node.js installed on your sistem. You can do install it on nodejs.org.
 gcc make python-norminette readline (valgrind on Linux)
 ```
 
