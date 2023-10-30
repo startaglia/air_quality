@@ -58,7 +58,7 @@ async function fetchAllValues() {
             subregions: Array.from(subregions).sort()
         };
     } catch (error) {
-        console.error("Errore nella richiesta all'API:", error);
+        console.error("API request error:", error);
         throw error;
     }
 }
@@ -75,18 +75,13 @@ app.get("/", async (req, res)=>{
         res.status(500).send(`Country request error`);
     }
 });
-
 app.post("/", (req, res)=> {
     const searchType = req.body.searchType;
     res.redirect(`/search_type?searchType=${searchType}`);
 });
-
-
 app.get("/search_type", async (req, res)=>{
     const searchType = req.query.searchType;
     const allValues = await fetchAllValues();
-    console.log("ALL REGIONS", allValues.regions);
-    console.log("ALL SUBREGION", allValues.subregions);
     res.render("search_type.ejs", {
         content:    searchType,
         names:      allValues.names,
@@ -96,7 +91,6 @@ app.get("/search_type", async (req, res)=>{
         subregions: allValues.subregions,
         });
 });
-
 app.post("/search_type", async (req, res) => {
     const searchTerm = req.body.searchTerm;
     const searchType = req.body.searchType;
@@ -110,7 +104,7 @@ app.post("/search_type", async (req, res) => {
                 if (apiData.length > 0) {
                     res.redirect(`/result?country=${apiData[0].name.common}`);
                 } else {
-                    res.status(404).send('Nessun paese trovato con questo nome.');
+                    res.status(404).send('No country found with this name.');
                 }
                 break;
             case 'capital':
@@ -119,7 +113,7 @@ app.post("/search_type", async (req, res) => {
                 if (apiData.length > 0) {
                     res.redirect(`/result?country=${apiData[0].name.common}`);
                 } else {
-                    res.status(404).send('Nessun paese trovato con questa capitale.');
+                    res.status(404).send('No country found with this name.');
                 }
                 break;
             default:
@@ -127,16 +121,14 @@ app.post("/search_type", async (req, res) => {
                 break;
         }
     } catch (error) {
-        console.error('Errore durante la richiesta al server API:', error);
-        res.status(500).send('Errore durante la ricerca del paese. Si prega di riprovare più tardi.');
+        console.error('API request error:', error);
+        res.status(500).send('Country request error.');
     }
 });
 app.get("/list_results", async (req, res)=>{
     try {
         const searchTerm = req.query.searchTerm;
         const searchType = req.query.searchType;
-        console.log("SEARCH TYPE", req.query.searchType);
-        console.log("SEARCH TERM", searchTerm);
         let response;
         switch (searchType) {
             case 'language':
@@ -167,15 +159,13 @@ app.get("/list_results", async (req, res)=>{
                 });
                 break;
             default:
-                res.status(400).send('Tipo di ricerca non supportato');
+                res.status(400).send('API request error');
                 break;
-
         }
     } catch (error) {
         res.status(500).send(`Country request error`);
     }
 });
-
 app.get("/country_list", async (req, res)=>{
     try {
         const response = await axios.get(ALL_API_URL + "all");
@@ -188,17 +178,14 @@ app.get("/country_list", async (req, res)=>{
         res.status(500).send(`Country request error`);
     }
 });
-
 app.post("/country_list", (req, res)=>{
     const country = req.body.country;
     res.redirect(`/result?country=${country}`);
 });
-
 app.get("/result", async (req, res) => {
     try {
         const countryName = req.query.country;
-
-        // Trova il paese nel tuo array di dati
+        //find selected country
         const selectedCountry = apiData.find(item => item.name.common === countryName);
 
         if (selectedCountry) {
@@ -212,12 +199,6 @@ app.get("/result", async (req, res) => {
         res.status(500).send(`Error: ${error.message}`);
     }
 });
-
-app.get("/search", (req, res)=>{
-    res.render("search.ejs");
-});
-
 app.listen(port, ()=> {
     console.log(`Server running on port ${port}`);
 });
-
